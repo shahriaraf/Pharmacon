@@ -21,15 +21,17 @@ const Sidebar = ({
   onRenameNote,
   onDeleteNote,
   selectedId,
+  editingId,
+  setEditingId,
 }) => {
+
   const [isHovering, setIsHovering] = useState(false);
-  const [editingId, setEditingId] = useState(null);
   const [newTitle, setNewTitle] = useState("");
   const [bgColor, setBgColor] = useState("bg-black");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleChange = () => {
-    setBgColor((prev) => (prev === "bg-black" ? "bg-blue-900" : "bg-black"));
+    setBgColor((prev) => (prev === "bg-black" ? " " : "bg-black"));
   };
 
   const SidebarContent = () => (
@@ -72,8 +74,11 @@ const Sidebar = ({
               className="text-gray-400 hover:text-white cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
-                onAddNote();
+                const newId = onAddNote();
+                setEditingId(newId);
+                setNewTitle('');
               }}
+
             />
           )}
         </div>
@@ -82,9 +87,8 @@ const Sidebar = ({
           {notes.map((note) => (
             <div
               key={note.id}
-              className={`group flex items-center justify-between text-sm px-2 py-1 rounded cursor-pointer ${
-                note.id === selectedId ? "bg-gray-700" : "hover:bg-gray-800"
-              }`}
+              className={`group relative flex items-center justify-between text-sm px-2 py-1 rounded cursor-pointer ${note.id === selectedId ? "bg-gray-700" : "hover:bg-gray-800"
+                }`}
             >
               {editingId === note.id ? (
                 <input
@@ -105,22 +109,33 @@ const Sidebar = ({
                   autoFocus
                 />
               ) : (
-                <span
-                  onClick={() => onSelectNote(note.id)}
-                  onDoubleClick={() => {
-                    setEditingId(note.id);
-                    setNewTitle(note.title);
-                  }}
-                  className="truncate"
-                >
-                  {note.title}
-                </span>
+                <div className="w-full relative">
+                  <span
+                    onClick={() => onSelectNote(note.id)}
+                    onDoubleClick={() => {
+                      setEditingId(note.id);
+                      setNewTitle(note.title);
+                    }}
+                    className="truncate"
+                  >
+                    {note.title}
+                  </span>
+
+                  {/* 👇 Tooltip: only when title is "untitled" */}
+                  {note.title.trim().toLowerCase() === "untitled" && (
+                    <span className="absolute top-full left-0 mt-1 text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      Double click to rename
+                    </span>
+                  )}
+                </div>
               )}
+
               <FiX
                 onClick={() => onDeleteNote(note.id)}
                 className="text-gray-400 group-hover:text-red-400 ml-2 hover:scale-105"
               />
             </div>
+
           ))}
         </div>
       </nav>
@@ -128,43 +143,42 @@ const Sidebar = ({
   );
 
   return (
-  <>
-    {/* === Hamburger Icon (Only when drawer is closed) === */}
-    {!isDrawerOpen && (
-      <div className="md:hidden fixed top-4 left-4 z-50">
-        <FiMenu
-          onClick={() => setIsDrawerOpen(true)}
-          className="text-white text-2xl cursor-pointer"
-        />
-      </div>
-    )}
+    <>
+      {/* === Hamburger Icon (Only when drawer is closed) === */}
+      {!isDrawerOpen && (
+        <div className="md:hidden fixed top-4 left-4 z-50">
+          <FiMenu
+            onClick={() => setIsDrawerOpen(true)}
+            className="text-white text-2xl cursor-pointer"
+          />
+        </div>
+      )}
 
-    {/* === Sidebar for Desktop === */}
-    <aside className="hidden md:flex w-60 bg-gray-900 text-white/90 h-screen py-6 px-4 border-r border-gray-800 flex-col">
-      <SidebarContent />
-    </aside>
-
-    {/* === Sidebar Drawer for Mobile === */}
-    <div
-      className={`fixed top-0 left-0 w-64 h-full bg-gray-900 text-white z-40 transform transition-transform duration-300 ease-in-out ${
-        isDrawerOpen ? "translate-x-0" : "-translate-x-full"
-      } md:hidden border-r border-gray-800`}
-    >
-      {/* Top Section with Close Button */}
-      <div className="flex justify-between items-center px-4 py-4 border-b border-gray-700">
-      
-        <FiX
-          onClick={() => setIsDrawerOpen(false)}
-          className="text-white text-xl cursor-pointer"
-        />
-      </div>
-
-      <div className="p-4">
+      {/* === Sidebar for Desktop === */}
+      <aside className="hidden md:flex w-60 bg-gray-900 text-white/90 h-screen py-6 px-4 border-r border-gray-800 flex-col">
         <SidebarContent />
+      </aside>
+
+      {/* === Sidebar Drawer for Mobile === */}
+      <div
+        className={`fixed top-0 left-0 w-64 h-full bg-gray-900 text-white z-40 transform transition-transform duration-300 ease-in-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+          } md:hidden border-r border-gray-800`}
+      >
+        {/* Top Section with Close Button */}
+        <div className="flex justify-between items-center px-4 py-4 border-b border-gray-700">
+
+          <FiX
+            onClick={() => setIsDrawerOpen(false)}
+            className="text-white text-xl cursor-pointer"
+          />
+        </div>
+
+        <div className="p-4">
+          <SidebarContent />
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 
 };
 
