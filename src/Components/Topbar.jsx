@@ -7,7 +7,7 @@ const Topbar = () => {
       {/* Left: Page Icon + Title + Status */}
       <div className="flex items-center gap-3">
         <span className="text-xl">👋</span>
-        <h1 className="text-lg font-semibold">Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-800 via-red-500 to-red-300">Pharmacon</span></h1>
+        <h1 className="text-lg font-semibold">Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-200 to-red-600">Pharmacon</span></h1>
         <div className="flex items-center text-sm text-gray-400 gap-1">
           <FiLock size={14} />
           <span>Private ▾</span>

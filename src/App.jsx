@@ -54,8 +54,8 @@ const App = () => {
             <Editor key={currentNote.id} />
           ) : (
             <div className="text-center text-4xl font-semibold mt-20">
-              Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-800 via-red-500 to-red-300">Phermacon</span><br />
-               Click here <span className="inline-block pt-2"><FiPlus className="text-white" onClick={(e) => {
+              Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-200 to-red-600">Phermacon</span><br />
+               Click here <span className="inline-block pt-2"><FiPlus className="text-red-600" onClick={(e) => {
                 e.stopPropagation();
                (handleAddNote())
               }}></FiPlus></span> to create a note

@@ -25,14 +25,14 @@ const Sidebar = ({ notes, onAddNote, onSelectNote, onRenameNote, onDeleteNote, s
 
   return (
     <aside className="w-60 bg-gray-900 text-white/90 h-screen py-6 px-4 border-r border-gray-800 flex flex-col">
-      <div className="text-xl font-semibold mb-6 px-2 flex items-center gap-2  "><FaBookMedical className="text-red-400" /><p className="text-transparent bg-clip-text bg-gradient-to-r from-red-800 via-red-500 to-red-300">Pharmacon</p></div>
+      <div className="text-xl font-semibold mb-6 px-2 flex items-center gap-2  "><FaBookMedical className="text-red-400" /><p className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-200 to-red-600">Pharmacon</p></div>
 
       <div className="relative mb-6">
         <FiSearch className="absolute left-3 top-2.5 text-gray-400" />
         <input
           type="text"
           placeholder="Search"
-          className="w-full pl-10 pr-3 py-2 bg-[#1e1e1e] border border-gray-700 rounded text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full pl-10 pr-3 py-2 bg-[#1e1e1e] border border-gray-700 rounded text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-red-600"
         />
       </div>
 
