@@ -11,7 +11,7 @@ const Topbar = () => {
   return (
     <div className="flex flex-wrap justify-between items-center px-4 sm:px-6 py-3 bg-black text-white/90 gap-y-2">
       {/* Left: Page Icon + Title + Status */}
-      <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
+      <div className="flex flex-wrap items-center ml-20 md:ml-0 justify-end gap-2 sm:gap-3">
         <span className="text-xl">👋</span>
         <h1 className="text-base sm:text-lg font-semibold">
           Welcome to{" "}
