@@ -37,16 +37,22 @@ const Sortable = ({ id, type, onUpdate, onDelete }) => {
       );
     }
 
-    if (type === "image") {
-      return (
-        <input
-          type="text"
-          onChange={(e) => onUpdate(id, e.target.value)}
-          placeholder="Image URL"
-          className={`${baseStyle} underline text-blue-300`}
-        />
-      );
-    }
+   if (type === "image") {
+  return (
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const imageUrl = URL.createObjectURL(file);
+          onUpdate(id, imageUrl);
+        }
+      }}
+      className="text-sm text-gray-300 file:bg-gray-700 file:text-white file:px-3 file:py-1 file:rounded file:border-0 file:cursor-pointer"
+    />
+  );
+}
 
     if (type === "youtube") {
       return (
