@@ -9,23 +9,37 @@ import {
   FiPlus,
   FiEdit2,
   FiX,
+  FiMenu,
 } from "react-icons/fi";
 import { HiOutlineAcademicCap } from "react-icons/hi";
 import { FaBookMedical } from "react-icons/fa";
 
-const Sidebar = ({ notes, onAddNote, onSelectNote, onRenameNote, onDeleteNote, selectedId }) => {
+const Sidebar = ({
+  notes,
+  onAddNote,
+  onSelectNote,
+  onRenameNote,
+  onDeleteNote,
+  selectedId,
+}) => {
   const [isHovering, setIsHovering] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [newTitle, setNewTitle] = useState("");
-  const [bgColor, setBgColor] = useState('bg-black');
+  const [bgColor, setBgColor] = useState("bg-black");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleChange = () => {
-    setBgColor(prev => prev === 'bg-black' ? 'bg-blue-900' : 'bg-black');
+    setBgColor((prev) => (prev === "bg-black" ? "bg-blue-900" : "bg-black"));
   };
 
-  return (
-    <aside className="w-60 bg-gray-900 text-white/90 h-screen py-6 px-4 border-r border-gray-800 flex flex-col">
-      <div className="text-xl font-semibold mb-6 px-2 flex items-center gap-2  "><FaBookMedical className="text-red-400" /><p className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-200 to-red-600">Pharmacon</p></div>
+  const SidebarContent = () => (
+    <>
+      <div className="text-xl font-semibold mb-6 px-2 flex items-center gap-2">
+        <FaBookMedical className="text-red-400" />
+        <p className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-200 to-red-600">
+          Pharmacon
+        </p>
+      </div>
 
       <div className="relative mb-6">
         <FiSearch className="absolute left-3 top-2.5 text-gray-400" />
@@ -44,7 +58,6 @@ const Sidebar = ({ notes, onAddNote, onSelectNote, onRenameNote, onDeleteNote, s
         <SidebarItem icon={<FiBook />} label="Class Notes" />
         <SidebarItem icon={<FiTrash2 />} label="Trash" />
 
-        {/* Notes Header */}
         <div
           className="relative group flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-700 justify-between"
           onMouseEnter={() => setIsHovering(true)}
@@ -65,7 +78,6 @@ const Sidebar = ({ notes, onAddNote, onSelectNote, onRenameNote, onDeleteNote, s
           )}
         </div>
 
-        {/* Notes List */}
         <div className="ml-5 mt-1 space-y-1">
           {notes.map((note) => (
             <div
@@ -104,7 +116,6 @@ const Sidebar = ({ notes, onAddNote, onSelectNote, onRenameNote, onDeleteNote, s
                   {note.title}
                 </span>
               )}
-
               <FiX
                 onClick={() => onDeleteNote(note.id)}
                 className="text-gray-400 group-hover:text-red-400 ml-2 hover:scale-105"
@@ -113,8 +124,48 @@ const Sidebar = ({ notes, onAddNote, onSelectNote, onRenameNote, onDeleteNote, s
           ))}
         </div>
       </nav>
-    </aside>
+    </>
   );
+
+  return (
+  <>
+    {/* === Hamburger Icon (Only when drawer is closed) === */}
+    {!isDrawerOpen && (
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <FiMenu
+          onClick={() => setIsDrawerOpen(true)}
+          className="text-white text-2xl cursor-pointer"
+        />
+      </div>
+    )}
+
+    {/* === Sidebar for Desktop === */}
+    <aside className="hidden md:flex w-60 bg-gray-900 text-white/90 h-screen py-6 px-4 border-r border-gray-800 flex-col">
+      <SidebarContent />
+    </aside>
+
+    {/* === Sidebar Drawer for Mobile === */}
+    <div
+      className={`fixed top-0 left-0 w-64 h-full bg-gray-900 text-white z-40 transform transition-transform duration-300 ease-in-out ${
+        isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+      } md:hidden border-r border-gray-800`}
+    >
+      {/* Top Section with Close Button */}
+      <div className="flex justify-between items-center px-4 py-4 border-b border-gray-700">
+      
+        <FiX
+          onClick={() => setIsDrawerOpen(false)}
+          className="text-white text-xl cursor-pointer"
+        />
+      </div>
+
+      <div className="p-4">
+        <SidebarContent />
+      </div>
+    </div>
+  </>
+);
+
 };
 
 const SidebarItem = ({ icon, label }) => (
